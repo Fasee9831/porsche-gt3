@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Porsche 911 GT3 — Precision in Chaos (Drift Mode)</title>
+  <meta name="description" content="Explore high-speed drift dynamics and controlled oversteer in the Porsche 911 GT3.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Existing Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Fullscreen Drift Video Background & Stage Overlay */
+    .drift-bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.85) contrast(1.1);
+    }
+    .drift-stage {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 120px 20px 60px;
+    .drift-hero-card {
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      padding: 48px 40px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(10, 14, 23, 0.72);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+    .drift-hero-card .stat-number-hero {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      color: #F8FAFC !important;
+      font-size: 32px !important;
+      font-weight: 900 !important;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95);
+      display: inline-block !important;
+    }
+  </style>
+</head>
+<body style="background: #030508; color: #F8FAFC; overflow-x: hidden;">
+
+  <!-- Fullscreen Video Background -->
+  <video class="drift-bg-video" autoplay loop muted playsinline poster="frames/frame_001.jpg">
+    <source src="drift.mp4" type="video/mp4">
+    <source src="porsche.mp4" type="video/mp4">
+  </video>
+
+  <!-- Atmospheric Darkness Vignette Overlay -->
+  <div class="cinematic-overlay" aria-hidden="true" style="z-index: 1;"></div>
+
+  <!-- Custom Cursor -->
+  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+    <div class="cursor-label">DRIFT</div>
+  </div>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header scrolled" id="site-header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 10;">
+    <div class="header-inner ios-glass-nav">
+      <a href="index.html" class="brand-logo" aria-label="Porsche Home">
+        <svg class="porsche-crest-icon" viewBox="0 0 145 24" fill="currentColor">
+          <text x="0" y="18" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="18" letter-spacing="4">PORSCHE</text>
+        </svg>
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html?skipIntro=1" class="btn btn-ghost btn-pill magnetic-btn">
+          <span style="margin-right: 6px;">&larr;</span>
+          <span>BACK TO HOME</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Drift Mode Stage -->
+  <main class="drift-stage">
+    <div class="drift-hero-card ios-squircle ambient-glow-red reveal-drift">
+      
+      <div class="hero-badge-group reveal-drift" style="justify-content: center; margin-bottom: 20px;">
+        <span class="type-eyebrow pill-badge glow-badge">PORSCHE 911 GT3 // DYNAMIC DRIFT MODE</span>
+        <span class="rail-tag pill-badge glow-badge">100% REAR LOCK DIFFERENTIAL</span>
+        <span class="rail-tag pill-badge glow-badge">9,000 RPM REDLINE</span>
+      </div>
+
+      <h1 class="type-display reveal-drift" style="font-size: 3.8rem; line-height: 1.05; margin-bottom: 18px;">
+        <span class="title-block title-block-gradient">PRECISION IN CHAOS</span>
+        <span class="title-block accent-red-glow" style="color: #FF1E27; text-shadow: 0 0 30px rgba(255,30,39,0.8);">HIGH-SPEED DRIFT DYNAMICS</span>
+      </h1>
+
+      <p class="type-body reveal-drift" style="max-width: 720px; margin: 0 auto 32px; font-size: 1.15rem; color: #CBD5E1; line-height: 1.6;">
+        Controlled oversteer at 9,000 RPM. The rear-engine architecture and electronically controlled variable locking differential turn high-speed cornering into pure kinetic art.
+      </p>
+
+      <!-- Telemetry Metrics Strip -->
+      <div class="hero-stats-strip reveal-drift" style="margin-bottom: 36px; background: rgba(0, 0, 0, 0.4); border-radius: var(--radius-ios-sm); padding: 20px;">
+        <div class="stat-unit-block">
+          <span class="stat-number-hero">470 NM</span>
+          <span class="stat-label-hero">ATMOSPHERIC TORQUE</span>
+        </div>
+        <div class="stat-strip-divider"></div>
+        <div class="stat-unit-block">
+          <span class="stat-number-hero">100% LOCK</span>
+          <span class="stat-label-hero">VARIABLE LOCK DIFFERENTIAL</span>
+        </div>
+        <div class="stat-strip-divider"></div>
+        <div class="stat-unit-block">
+          <span class="stat-number-hero">54:46 REAR</span>
+          <span class="stat-label-hero">DYNAMIC WEIGHT BALANCE</span>
+        </div>
+      </div>
+
+      <div class="hero-cta-group reveal-drift" style="justify-content: center; gap: 16px;">
+        <a href="index.html?skipIntro=1" class="btn btn-primary btn-pill btn-lg magnetic-btn">
+          <span>&larr; RETURN TO GT3 EXPERIENCE</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Interactive Cursor & GSAP Animation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Custom Cursor Handler
+      const cursor = document.getElementById('custom-cursor');
+      window.addEventListener('mousemove', (e) => {
+        if (cursor) {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+        }
+      }, { passive: true });
+
+      const interactiveElements = document.querySelectorAll('.magnetic-btn, .btn, a, button');
+      interactiveElements.forEach(btn => {
+        btn.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        btn.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+
+      // GSAP Entrance Fade-In Reveal
+      if (window.gsap) {
+        gsap.fromTo('.reveal-drift',
+          { opacity: 0, y: 40, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.85, stagger: 0.14, ease: 'power2.out' }
+        );
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Porsche 911 GT3 — The Art of Motion</title>
+  <meta name="description" content="An interactive cinematic experience exploring the verified performance, aerodynamics, and motorsport engineering of the Porsche 911 GT3 (992).">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- GSAP & ScrollTrigger Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Scroll Engine -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ULTRA-PREMIUM PORSCHE 911 GT3 GERMAN AUTOMOTIVE LAUNCH EXPERIENCE -->
+  <div id="gt3-intro-overlay" class="gt3-intro-overlay">
+    <!-- Fullscreen Video Background (bgmain.mp4) -->
+    <video class="gt3-intro-bg-video" autoplay loop muted playsinline poster="frames/frame_001.jpg">
+      <source src="bgmain.mp4" type="video/mp4">
+      <source src="porsche.mp4" type="video/mp4">
+    </video>
+
+    <!-- Atmospheric Vignette Darkening -->
+    <div class="gt3-intro-vignette" aria-hidden="true"></div>
+
+    <!-- Sparse Atmosphere Particle Canvas -->
+    <canvas id="gt3-intro-canvas" class="gt3-intro-canvas"></canvas>
+
+    <!-- Subtle Technical Grid Layer -->
+    <div class="gt3-tech-grid" aria-hidden="true"></div>
+
+    <!-- Soft Atmospheric Red Illumination Aura -->
+    <div class="gt3-atmos-red-glow" aria-hidden="true"></div>
+
+    <!-- Top Navigation Bar & Action -->
+    <div class="gt3-intro-top-bar">
+      <div class="gt3-intro-micro-label">
+        <span class="micro-brand">PORSCHE MOTORSPORT</span>
+        <span class="micro-sep">/</span>
+        <span class="micro-code">992 / GT3</span>
+      </div>
+
+      <button id="gt3-intro-skip" class="gt3-intro-skip-btn" aria-label="Enter Experience">
+        <span>ENTER THE GT3 &rarr;</span>
+      </button>
+    </div>
+
+    <!-- Central Ultra-Premium Launch Stage -->
+    <div class="gt3-intro-launch-stage">
+      
+      <!-- Porsche Crest with Metallic Halo & Ring Rotator -->
+      <div class="gt3-intro-crest-wrap">
+        <div class="gt3-crest-metallic-halo"></div>
+        <div class="gt3-crest-ring-rotator"></div>
+        <img src="porschelogo.png" alt="Porsche Crest" class="gt3-intro-crest-img">
+      </div>
+
+      <!-- Main Editorial Launch Copy -->
+      <div class="gt3-intro-hero-copy">
+        <span class="gt3-intro-hero-eyebrow">THE ART OF PERFORMANCE</span>
+        <h1 class="gt3-intro-hero-title" id="gt3-hero-title">
+          <span class="gt3-char">9</span><span class="gt3-char">1</span><span class="gt3-char">1</span><span class="gt3-char-space">&nbsp;</span><span class="gt3-char red-gt3">G</span><span class="gt3-char red-gt3">T</span><span class="gt3-char red-gt3">3</span>
+        </h1>
+        <div class="gt3-statement-line-mask">
+          <p class="gt3-intro-hero-statement">
+            <span class="gt3-stmt-word">PURE.</span>
+            <span class="gt3-stmt-word accent-red">PRECISE.</span>
+            <span class="gt3-stmt-word">UNCOMPROMISED.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Minimal Performance Specifications Strip -->
+      <div class="gt3-intro-spec-strip">
+        <div class="spec-item">
+          <span id="spec-val-power" class="spec-val" data-target="510" data-suffix=" PS">0 PS</span>
+          <span class="spec-lbl">OUTPUT</span>
+        </div>
+        <div class="spec-divider"></div>
+        <div class="spec-item">
+          <span id="spec-val-rpm" class="spec-val" data-target="9000" data-suffix=" RPM">0 RPM</span>
+          <span class="spec-lbl">MAX ENGINE SPEED</span>
+        </div>
+        <div class="spec-divider"></div>
+        <div class="spec-item">
+          <span id="spec-val-disp" class="spec-val" data-target="4.0" data-suffix="L">0.0L</span>
+          <span class="spec-lbl">FLAT-SIX ENGINE</span>
+        </div>
+        <div class="spec-divider"></div>
+        <div class="spec-item">
+          <span id="spec-val-weight" class="spec-val" data-target="1418" data-suffix=" KG">0 KG</span>
+          <span class="spec-lbl">KERB WEIGHT</span>
+        </div>
+      </div>
+
+      <!-- Sleek Minimal Progress Bar System -->
+      <div class="gt3-auto-loader-wrap">
+        <div class="gt3-auto-loader-track">
+          <div id="gt3-auto-loader-bar" class="gt3-auto-loader-bar">
+            <div class="gt3-auto-loader-laser-tip"></div>
+          </div>
+        </div>
+        <div class="gt3-auto-loader-counter">
+          <span id="gt3-auto-loader-pct">0%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Reduced Motion Announcement -->
+  <div id="sr-announcer" class="sr-only" aria-live="polite"></div>
+
+  <!-- Custom Physics Cursor (Desktop Only) -->
+  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+    <div class="cursor-label">SCROLL</div>
+  </div>
+
+  <!-- GLOBAL FIXED CINEMATIC BACKGROUND LAYER (Locked Working Core Engine) -->
+  <div id="global-cinematic-layer" class="global-cinematic-layer">
+    <!-- Primary Porsche Video Asset (porsche.mp4) -->
+    <video id="hero-video" src="porsche.mp4" preload="auto" playsinline webkit-playsinline muted style="display:none;"></video>
+    
+    <!-- Full-Bleed Canvas Frame Renderer -->
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    
+    <!-- Atmospheric Ambient Vignette & Darkness Overlay -->
+    <div class="cinematic-overlay" aria-hidden="true"></div>
+
+    <!-- Telemetry HUD Overlay (Clean Bottom Indicators Only) -->
+    <div class="telemetry-hud" aria-hidden="true">
+      <div class="hud-bottom-left" id="hud-bottom-left">
+        <div class="hud-coords pill-badge glow-badge">CIRCUIT: NÜRBURGRING NORDSCHLEIFE (20.8 KM)</div>
+      </div>
+
+      <div class="hud-bottom-right" id="hud-bottom-right">
+        <div class="scroll-prompt pill-badge glow-badge">
+          <span class="scroll-text">SCROLL TO DRIVE DOWN</span>
+          <div class="scroll-indicator-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persistent Global Scroll Progress Line -->
+    <div class="hero-progress-container">
+      <div id="hero-progress-fill" class="hero-progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- Primary Navigation (iOS 18 Translucent Floating Pill Bar) -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner ios-glass-nav">
+      <a href="#motion" class="brand-logo" aria-label="Porsche Home">
+        <svg class="porsche-crest-icon" viewBox="0 0 145 24" fill="currentColor">
+          <text x="0" y="18" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="18" letter-spacing="4">PORSCHE</text>
+        </svg>
+      </a>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#motion" class="nav-link active"><span class="nav-num">01</span> Speed</a></li>
+          <li><a href="#aero" class="nav-link"><span class="nav-num">02</span> Aero</a></li>
+          <li><a href="#engine" class="nav-link"><span class="nav-num">03</span> Engine</a></li>
+          <li><a href="#experience" class="nav-link"><span class="nav-num">04</span> Heritage</a></li>
+          <li><a href="#telemetry" class="nav-link"><span class="nav-num">05</span> Car Anatomy</a></li>
+          <li><a href="#acoustics" class="nav-link"><span class="nav-num">06</span> Sound</a></li>
+          <li><a href="#claim-apex" class="nav-link"><span class="nav-num">07</span> Build Yours</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="3d-view.html" id="toggle-3d-btn" class="btn btn-outline btn-pill magnetic-btn btn-sm toggle-3d-btn" style="border-color: rgba(255, 30, 39, 0.5);">
+          <span id="toggle-3d-btn-text">📦 3D MODEL VIEW</span>
+        </a>
+
+        <button id="cta-config-btn" class="btn btn-primary btn-pill magnetic-btn" data-modal="config-modal">
+          <span>BUILD YOUR GT3</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation Menu -->
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay" aria-hidden="true">
+      <div class="mobile-nav-inner">
+        <ul class="mobile-nav-list">
+          <li><a href="#motion" class="mobile-nav-link">01 / Speed & Motion</a></li>
+          <li><a href="#aero" class="mobile-nav-link">02 / Aerodynamics</a></li>
+          <li><a href="#engine" class="mobile-nav-link">03 / The 4.0L Engine</a></li>
+          <li><a href="#experience" class="mobile-nav-link">04 / Racing Heritage</a></li>
+          <li><a href="#telemetry" class="mobile-nav-link">05 / Interactive Car Anatomy</a></li>
+          <li><a href="#acoustics" class="mobile-nav-link">06 / Engine Sound Simulator</a></li>
+          <li><a href="#claim-apex" class="mobile-nav-link">07 / Build Your Porsche GT3</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN SCROLLABLE EDITORIAL CONTENT LAYER -->
+  <main id="main-content" class="main-content">
+    
+    <!-- SECTION 01: SPEED & MOTION (With Compact Inline Mode Telemetry Illustration) -->
+    <section id="motion" class="page-section section-motion">
+      <div class="container">
+        <div class="editorial-hero-layout glass-panel ios-card-hero ambient-glow-red reveal-card-top" id="hero-card">
+          
+          <div class="hero-header-bar reveal-text-top delay-1">
+            <div class="hero-badge-group">
+              <span class="type-eyebrow pill-badge glow-badge">01 // PORSCHE GT EXPERIENCE</span>
+              <span class="rail-tag pill-badge glow-badge">NÜRBURGRING: 6:59.927 MIN</span>
+              <span class="rail-tag pill-badge glow-badge">4.0L ATMOSPHERIC FLAT-6</span>
+              <span class="rail-tag pill-badge glow-badge">198 MPH TOP SPEED</span>
+            </div>
+            
+            <div class="hero-controls-wrap">
+              <a href="3d-view.html" id="hero-toggle-3d-btn" class="btn btn-outline btn-pill magnetic-btn toggle-3d-btn" style="border-color: rgba(255, 30, 39, 0.5);">
+                <span class="hero-toggle-3d-text">📦 3D MODEL VIEW</span>
+              </a>
+
+            <div class="paint-color-picker">
+                <span class="picker-label">PAINT COLOR:</span>
+                <div class="swatch-group">
+                  <button class="swatch-btn active" data-color="#FF1E27" data-name="Guards Red" style="background:#FF1E27;" title="Guards Red"></button>
+                  <button class="swatch-btn" data-color="#0066CC" data-name="Shark Blue" style="background:#0066CC;" title="Shark Blue"></button>
+                  <button class="swatch-btn" data-color="#8E9AA8" data-name="GT Silver" style="background:#8E9AA8;" title="GT Silver"></button>
+                  <button class="swatch-btn" data-color="#10B981" data-name="Python Green" style="background:#10B981;" title="Python Green"></button>
+                </div>
+              </div>
+
+              <div class="drive-mode-picker">
+                <div class="mode-buttons-inline">
+                  <span class="mode-label">MODE:</span>
+                  <div class="mode-buttons">
+                    <button class="mode-btn btn-pill active" data-mode="street">STREET</button>
+                    <button class="mode-btn btn-pill" data-mode="sport">SPORT</button>
+                    <button class="mode-btn btn-pill" data-mode="track">TRACK</button>
+                  </div>
+
+                  <!-- INLINE COMPACT TELEMETRY BADGE -->
+                  <div id="inline-mode-badge" class="inline-mode-badge pill-badge glow-badge">
+                    <svg id="inline-mode-icon" class="inline-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="9" stroke="#E2E8F0"/>
+                      <path d="M12 12L12 3M12 12L5 16M12 12L19 16" stroke="#FF1E27"/>
+                    </svg>
+                    <span id="inline-mode-text">PASM COMFORT • 160 MPH</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-content-spread">
+            <h1 class="type-display hero-main-title reveal-text-top delay-2">
+              <span class="title-block title-block-gradient">PURE MOTORSPORT</span>
+              <span class="title-block accent-red-glow" id="hero-color-accent">UNFILTERED ADRENALINE</span>
+            </h1>
+            
+            <p class="type-body hero-statement reveal-text-left delay-3">
+              Zero compromises. Zero turbochargers. The 911 GT3 transfers pure motorsport technology from the track directly to the road with 502 horsepower and telepathic throttle response.
+            </p>
+
+            <div class="hero-stats-strip reveal-card-up delay-4">
+              <div class="stat-unit-block">
+                <span class="stat-number-hero" id="hero-hp-val">502 HP</span>
+                <span class="stat-label-hero" id="hero-hp-lbl">ATMOSPHERIC HORSEPOWER</span>
+              </div>
+              <div class="stat-strip-divider"></div>
+              <div class="stat-unit-block">
+                <span class="stat-number-hero" id="hero-rpm-val">9,000</span>
+                <span class="stat-label-hero" id="hero-rpm-lbl">SCREAMING REDLINE RPM</span>
+              </div>
+              <div class="stat-strip-divider"></div>
+              <div class="stat-unit-block">
+                <span class="stat-number-hero" id="hero-acc-val">3.2s</span>
+                <span class="stat-label-hero" id="hero-acc-lbl">0 TO 60 MPH (PDK)</span>
+              </div>
+            </div>
+
+            <div class="hero-cta-group reveal-card-up delay-4">
+              <a href="#aero" class="btn btn-outline btn-pill magnetic-btn">
+                <span>TEST AERODYNAMICS</span>
+              </a>
+              <a href="drift.html" class="btn btn-outline btn-pill magnetic-btn" style="border-color: rgba(255, 30, 39, 0.6); box-shadow: 0 0 16px rgba(255, 30, 39, 0.35);">
+                <span>🏎️ ENTER DRIFT MODE</span>
+              </a>
+              <button class="btn btn-primary btn-pill magnetic-btn" data-modal="config-modal">
+                <span>BUILD YOUR GT3</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: AERO -->
+    <section id="aero" class="page-section section-aero">
+      <div class="container">
+        <div class="section-heading-editorial">
+          <div class="heading-left reveal-text-top">
+            <span class="type-eyebrow pill-badge glow-badge">02 // AERODYNAMICS</span>
+            <h2 class="type-headline title-block-gradient">CRAFTED BY VELOCITY</h2>
+          </div>
+          <div class="heading-right reveal-text-left delay-1">
+            <p class="type-body reveal-words-target" id="aero-reveal-paragraph">
+              At high speeds, air isn't an obstacle—it's your greatest asset. Every duct, vent, and wing profile sculpts the wind to generate up to 385 kg of downforce.
+            </p>
+          </div>
+        </div>
+
+        <div class="asymmetric-grid-aero">
+          <article class="aero-card-main glass-panel ios-squircle ambient-glow-card reveal-card-top delay-1">
+            <div class="card-meta-header">
+              <span class="card-tag-red pill-badge glow-badge">AIRFLOW & DOWNFORCE SIMULATOR</span>
+              <span class="type-micro">TRACK MODE CALIBRATION AT 124 MPH</span>
+            </div>
+            <h3 class="panel-heading">Underbody Venturi Mechanics</h3>
+            <p class="card-desc-text">Watch how air flows smoothly under the chassis to suck the car down to the tarmac without creating heavy aerodynamic drag.</p>
+
+            <div class="card-canvas-wrapper">
+              <canvas id="airflow-canvas" class="airflow-canvas"></canvas>
+              <div class="airflow-controls">
+                <button id="speed-toggle-btn" class="btn-sm btn-ghost btn-pill">CAR SPEED: <span id="speed-val-display">160 MPH</span></button>
+                <button id="wing-angle-btn" class="btn-sm btn-ghost btn-pill">REAR WING: <span id="wing-angle-display">TRACK ANGLE (+12°)</span></button>
+              </div>
+            </div>
+
+            <div class="aero-metrics-row">
+              <div class="aero-metric-item">
+                <span class="metric-num-lg" id="metric-downforce">385 KG</span>
+                <span class="metric-lbl-sm">MAX DOWNFORCE AT 124 MPH</span>
+              </div>
+              <div class="aero-metric-item">
+                <span class="metric-num-lg" id="metric-drag">0.34</span>
+                <span class="metric-lbl-sm">DRAG COEFFICIENT (Cd)</span>
+              </div>
+              <div class="aero-metric-item">
+                <span class="metric-num-lg">+150%</span>
+                <span class="metric-lbl-sm">MORE DOWNFORCE IN PERFORMANCE MODE</span>
+              </div>
+            </div>
+          </article>
+
+          <div class="aero-secondary-column">
+            <article class="aero-card-secondary glass-panel ios-squircle ambient-glow-card reveal-card-right delay-2">
+              <div class="card-meta-header">
+                <span class="card-tag-red pill-badge glow-badge">RACE CAR TECHNOLOGY</span>
+              </div>
+              <h3 class="panel-heading">Swan-Neck Rear Wing</h3>
+              <p class="card-desc-text">
+                Derived directly from the 911 RSR race car. Hanging the wing from above keeps airflow underneath clean—generating significantly higher downforce.
+              </p>
+              <div class="wing-svg-wrapper">
+                <svg class="wing-illustration" viewBox="0 0 300 140" fill="none" stroke="currentColor">
+                  <path d="M30,120 Q80,25 170,35 T250,100" stroke="#FF1E27" stroke-width="3" stroke-dasharray="4,4"/>
+                  <path d="M70,110 L110,45 L180,45 L220,100" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+                  <circle cx="110" cy="45" r="4" fill="#FF1E27"/>
+                  <circle cx="180" cy="45" r="4" fill="#FF1E27"/>
+                  <text x="110" y="32" fill="#ffffff" font-size="10" font-family="'Space Grotesk'">SUSPENDED MOUNT</text>
+                </svg>
+              </div>
+            </article>
+
+            <article class="aero-card-secondary glass-panel ios-squircle ambient-glow-card reveal-card-right delay-3">
+              <div class="card-meta-header">
+                <span class="card-tag-red pill-badge glow-badge">LIGHTWEIGHT MATERIALS</span>
+              </div>
+              <h3 class="panel-heading">Carbon Fiber Hood Vents</h3>
+              
+              <!-- WORD-BY-WORD REVEAL PARAGRAPH & BULLETS -->
+              <p class="card-desc-text reveal-words-target" id="hood-vents-reveal-paragraph">Integrated hood air outlets extract hot air from the central radiator while increasing downforce over the front axle.</p>
+              
+              <ul class="spec-check-list">
+                <li class="reveal-words-target"><span class="red-bullet"></span> Ultra-light Carbon Fiber Bonnet</li>
+                <li class="reveal-words-target"><span class="red-bullet"></span> Twin Radiator Outlets</li>
+                <li class="reveal-words-target"><span class="red-bullet"></span> Optimized Front Axle Downforce</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: ENGINE (WITH REAL-TIME CYLINDER FIRING ORDER ANIMATION) -->
+    <section id="engine" class="page-section section-engine">
+      <div class="container">
+        <div class="section-heading-editorial text-center">
+          <span class="type-eyebrow pill-badge glow-badge reveal-text-top">03 // THE HEART OF GT3</span>
+          <h2 class="type-headline title-block-gradient reveal-text-top delay-1">THE 9,000 RPM HEARTBEAT</h2>
+          <p class="type-body text-center-max reveal-text-left delay-2">
+            Feel the fury of a naturally aspirated 4.0-liter flat-six engine. Delivering 502 horsepower and 346 lb-ft of torque with six individual throttle valves.
+          </p>
+        </div>
+
+        <div class="engine-editorial-grid glass-panel ios-squircle ambient-glow-red reveal-card-top delay-1">
+          <div class="tachometer-column">
+            <div class="tacho-container">
+              <canvas id="tacho-canvas" width="300" height="300"></canvas>
+              <div class="tacho-readout">
+                <span id="tacho-rpm-val" class="tacho-rpm">9,000</span>
+                <span class="tacho-label">MAX RPM</span>
+              </div>
+            </div>
+
+            <div class="tacho-action-wrapper">
+              <button id="rev-engine-btn" class="btn btn-outline btn-pill magnetic-btn">
+                <span>HOLD TO REV ENGINE</span>
+              </button>
+            </div>
+
+            <!-- FLAT-SIX CYLINDER FIRING ORDER TELEMETRY STRIP -->
+            <div class="firing-order-strip pill-badge glow-badge">
+              <span class="firing-label">FIRING ORDER (1-6-2-4-3-5):</span>
+              <div class="piston-nodes" id="piston-nodes-container">
+                <span class="piston-node active" data-piston="1">P1</span>
+                <span class="piston-node" data-piston="6">P6</span>
+                <span class="piston-node" data-piston="2">P2</span>
+                <span class="piston-node" data-piston="4">P4</span>
+                <span class="piston-node" data-piston="3">P3</span>
+                <span class="piston-node" data-piston="5">P5</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="engine-data-column">
+            <div class="editorial-stat-blocks">
+              <div class="stat-item-card ios-squircle-sm">
+                <span class="stat-micro-tag">DISPLACEMENT</span>
+                <div class="stat-value-group">
+                  <span class="huge-stat-num">4.0</span>
+                  <span class="stat-unit-tag">LITERS (3,996 CC)</span>
+                </div>
+                <span class="stat-detail-note">Naturally aspirated 6-cylinder boxer engine</span>
+              </div>
+
+              <div class="stat-item-card ios-squircle-sm">
+                <span class="stat-micro-tag">MAX HORSEPOWER</span>
+                <div class="stat-value-group">
+                  <span class="huge-stat-num">502</span>
+                  <span class="stat-unit-tag">HP AT 8,400 RPM</span>
+                </div>
+                <span class="stat-detail-note">High-revving atmospheric power output</span>
+              </div>
+
+              <div class="stat-item-card ios-squircle-sm">
+                <span class="stat-micro-tag">MAX TORQUE</span>
+                <div class="stat-value-group">
+                  <span class="huge-stat-num">346</span>
+                  <span class="stat-unit-tag">LB-FT AT 6,100 RPM</span>
+                </div>
+                <span class="stat-detail-note">Six individual throttle valves for instant response</span>
+              </div>
+
+              <div class="stat-item-card ios-squircle-sm">
+                <span class="stat-micro-tag">TRACK TOP SPEED</span>
+                <div class="stat-value-group">
+                  <span class="huge-stat-num">198</span>
+                  <span class="stat-unit-tag">MPH TOP SPEED</span>
+                </div>
+                <span class="stat-detail-note">Achieved with 6-speed GT Sport manual gearbox</span>
+              </div>
+            </div>
+
+            <div class="gearbox-selector-card ios-squircle-sm">
+              <span class="selector-title-tag">CHOOSE YOUR TRANSMISSION</span>
+              <div class="selector-tabs ios-segmented-control" role="tablist">
+                <button role="tab" aria-selected="true" class="tab-btn btn-pill active" id="tab-pdk">7-SPEED PDK AUTOMATIC</button>
+                <button role="tab" aria-selected="false" class="tab-btn btn-pill" id="tab-manual">6-SPEED MANUAL</button>
+              </div>
+              <div class="tab-content" id="gearbox-desc">
+                <p id="gearbox-reveal-paragraph" class="type-body gearbox-desc-p reveal-words-target"><strong>7-Speed PDK Automatic Dual-Clutch:</strong> Shifts gears automatically in milliseconds with zero interruption in acceleration. Enables 0–60 mph acceleration in 3.2 seconds.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: HERITAGE (WITH WORD-BY-WORD MASKED TEXT REVEALS) -->
+    <section id="experience" class="page-section section-experience">
+      <div class="container">
+        <div class="section-heading-editorial">
+          <div class="heading-left reveal-text-top">
+            <span class="type-eyebrow pill-badge glow-badge">04 // RACING HERITAGE</span>
+            <h2 class="type-headline title-block-gradient">BRED ON THE NÜRBURGRING</h2>
+          </div>
+          <div class="heading-right reveal-text-left delay-1">
+            <p class="type-body">
+              Engineered and developed alongside the official 911 GT3 Cup factory race car. Tested over thousands of track miles on the Nordschleife.
+            </p>
+          </div>
+        </div>
+
+        <div id="horizontal-content-pan" class="experience-panels-grid">
+          <article class="timeline-panel glass-panel ios-squircle ambient-glow-card">
+            <span class="panel-watermark">01</span>
+            <span class="panel-tag-red pill-badge glow-badge">WEISSACH PACKAGE</span>
+            <h3 class="panel-heading">Lightweight CFRP Upgrades</h3>
+            <p class="reveal-words-target">Carbon fiber hood, carbon anti-roll bars, magnesium forged wheels, and titanium roll cage reduce unsprung weight.</p>
+            <div class="panel-footer-stat">
+              <span class="stat-num-sm reveal-words-target">-48 LBS</span>
+              <span class="stat-lbl-sm reveal-words-target">WEIGHT REDUCTION</span>
+            </div>
+          </article>
+
+          <article class="timeline-panel glass-panel ios-squircle ambient-glow-card">
+            <span class="panel-watermark">02</span>
+            <span class="panel-tag-red pill-badge glow-badge">TRACK TESTED</span>
+            <h3 class="panel-heading">160+ Wind Tunnel Hours</h3>
+            <p class="reveal-words-target">Fine-tuned over 160 hours in the wind tunnel to perfect aerodynamic downforce and drag efficiency.</p>
+            <div class="panel-footer-stat">
+              <span class="stat-num-sm reveal-words-target">160+ HOURS</span>
+              <span class="stat-lbl-sm reveal-words-target">AERODYNAMIC TUNING</span>
+            </div>
+          </article>
+
+          <article class="timeline-panel glass-panel ios-squircle ambient-glow-card">
+            <span class="panel-watermark">03</span>
+            <span class="panel-tag-red pill-badge glow-badge">DRIVER COCKPIT</span>
+            <h3 class="panel-heading">Total Driver Control</h3>
+            <p class="reveal-words-target">GT Sport steering wheel with mode dial, analog central tachometer flanked by track displays, and carbon bucket seats.</p>
+            <div class="panel-footer-stat">
+              <span class="stat-num-sm reveal-words-target">CARBON SEATS</span>
+              <span class="stat-lbl-sm reveal-words-target">MAX LATERAL SUPPORT</span>
+            </div>
+          </article>
+
+          <article class="timeline-panel glass-panel ios-squircle ambient-glow-card">
+            <span class="panel-watermark">04</span>
+            <span class="panel-tag-red pill-badge glow-badge">OFFICIAL BENCHMARK</span>
+            <h3 class="panel-heading">Nürburgring Record Lap</h3>
+            <p class="reveal-words-target">Lapped the 20.8 km Nürburgring Nordschleife in an official time of 6 minutes and 59.927 seconds—over 17 seconds faster than its predecessor.</p>
+            <div class="panel-footer-stat">
+              <span class="stat-num-sm reveal-words-target">6:59.927</span>
+              <span class="stat-lbl-sm reveal-words-target">OFFICIAL 20.8 KM LAP TIME</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: CAR ANATOMY -->
+    <section id="telemetry" class="page-section section-telemetry">
+      <div class="container">
+        <div class="section-heading-editorial text-center">
+          <span class="type-eyebrow pill-badge glow-badge reveal-text-top">05 // INTERACTIVE CAR ANATOMY</span>
+          <h2 class="type-headline title-block-gradient reveal-text-top delay-1">HIGH-TECH CHASSIS ANATOMY</h2>
+          <p class="type-body text-center-max reveal-text-left delay-2">
+            Tap on any glowing highlight dot on the car diagram to see how each key component works.
+          </p>
+        </div>
+
+        <div class="hotspot-stage glass-panel ios-squircle ambient-glow-card reveal-card-top delay-1">
+          <div class="hotspot-diagram-wrapper ios-squircle-sm">
+            <svg class="gt3-silhouette-svg" viewBox="0 0 1000 400" fill="none">
+              <path d="M100 300 Q150 280 250 280 L350 270 Q450 180 600 180 Q750 180 820 250 L900 270 Q950 280 950 300 L950 320 L100 320 Z" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+              <circle cx="250" cy="310" r="50" fill="#161b22" stroke="#FF1E27" stroke-width="3"/>
+              <circle cx="250" cy="310" r="25" fill="#21262d"/>
+              <circle cx="780" cy="310" r="50" fill="#161b22" stroke="#FF1E27" stroke-width="3"/>
+              <circle cx="780" cy="310" r="25" fill="#21262d"/>
+              <path d="M850 230 L940 210 L950 220 L860 240 Z" fill="#FF1E27"/>
+            </svg>
+
+            <button class="hotspot-btn active" style="top: 72%; left: 25%;" data-spot="brakes">
+              <span class="hotspot-ring"></span>
+              <span class="hotspot-dot"></span>
+              <span class="hotspot-title pill-badge glow-badge">CERAMIC BRAKES</span>
+            </button>
+
+            <button class="hotspot-btn" style="top: 55%; left: 52%;" data-spot="cockpit">
+              <span class="hotspot-ring"></span>
+              <span class="hotspot-dot"></span>
+              <span class="hotspot-title pill-badge glow-badge">CARBON COCKPIT</span>
+            </button>
+
+            <button class="hotspot-btn" style="top: 70%; left: 78%;" data-spot="engine">
+              <span class="hotspot-ring"></span>
+              <span class="hotspot-dot"></span>
+              <span class="hotspot-title pill-badge glow-badge">4.0L FLAT-SIX</span>
+            </button>
+
+            <button class="hotspot-btn" style="top: 48%; left: 88%;" data-spot="wing">
+              <span class="hotspot-ring"></span>
+              <span class="hotspot-dot"></span>
+              <span class="hotspot-title pill-badge glow-badge">SWAN-NECK WING</span>
+            </button>
+          </div>
+
+          <div class="hotspot-info-card ios-squircle-sm" id="hotspot-info">
+            <span class="info-tag-red pill-badge glow-badge" id="spot-tag">HIGH-PERFORMANCE BRAKING</span>
+            <h3 id="spot-title">Porsche Ceramic Composite Brakes (PCCB)</h3>
+            <p id="spot-desc" class="reveal-words-target">410 mm front carbon-ceramic disc rotors with 6-piston aluminum monobloc fixed calipers deliver fade-free stopping power while saving 50% weight over cast-iron rotors.</p>
+            <div class="spot-metric-row">
+              <div class="spot-m"><span class="m-val" id="spot-m1">410 MM</span><span class="m-lbl" id="spot-l1">FRONT ROTOR SIZE</span></div>
+              <div class="spot-m"><span class="m-val" id="spot-m2">50% LIGHTER</span><span class="m-lbl" id="spot-l2">THAN STEEL BRAKES</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06: ACOUSTICS (WITH EXHAUST SYSTEM SWITCHER) -->
+    <section id="acoustics" class="page-section section-acoustics">
+      <div class="container">
+        <div class="section-heading-editorial text-center">
+          <span class="type-eyebrow pill-badge glow-badge reveal-text-top">06 // ENGINE SOUND</span>
+          <h2 class="type-headline title-block-gradient reveal-text-top delay-1">THE ACOUSTIC SYMPHONY</h2>
+          <p class="type-body text-center-max reveal-text-left delay-2">
+            Click below to hear a live audio simulation of the naturally aspirated flat-six engine revving up to 9,000 RPM.
+          </p>
+        </div>
+
+        <div class="audio-stage glass-panel ios-squircle ambient-glow-card reveal-card-top delay-1">
+          <div class="spectrum-wrapper ios-squircle-sm">
+            <canvas id="audio-spectrum-canvas" height="160"></canvas>
+          </div>
+
+          <div class="audio-controls-row">
+            <button id="play-sound-btn" class="btn btn-primary btn-pill magnetic-btn">
+              <svg class="audio-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span id="sound-btn-text">LISTEN TO ENGINE SOUND</span>
+            </button>
+
+            <!-- EXHAUST MODE SWITCHER -->
+            <div class="exhaust-mode-toggle pill-badge glow-badge">
+              <span class="exhaust-label">EXHAUST MODE:</span>
+              <button class="exhaust-mode-btn active" id="ex-std-btn" data-exhaust="standard">STANDARD PASM</button>
+              <button class="exhaust-mode-btn" id="ex-track-btn" data-exhaust="track">🔥 TRACK OPEN (BACKFIRE)</button>
+            </div>
+
+            <div class="audio-freq-info">
+              <span class="freq-tag pill-badge glow-badge">FREQUENCY: <strong id="freq-val">450 Hz</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 07: BUILD YOURS & CLAIM YOUR APEX -->
+    <section id="claim-apex" class="page-section section-cta">
+      <div class="container text-center">
+        <div class="cta-editorial-card glass-panel ios-squircle ambient-glow-red reveal-card-top">
+          <span class="type-eyebrow pill-badge glow-badge reveal-text-top delay-1">07 // YOUR GT3 JOURNEY</span>
+          <h2 class="type-headline cta-main-headline title-block-gradient reveal-text-top delay-2">THE ROAD IS YOUR CIRCUIT</h2>
+          
+          <!-- WORD-BY-WORD TEXT REVEAL ANIMATION PARAGRAPH -->
+          <p class="type-body cta-body-text reveal-words-target" id="cta-reveal-paragraph">
+            Build your custom 911 GT3 specification or request direct allocation assistance from a Porsche GT Specialist.
+          </p>
+          
+          <div class="cta-actions-group reveal-card-up delay-4">
+            <button class="btn btn-primary btn-pill btn-lg magnetic-btn" data-modal="config-modal">
+              <span>LAUNCH GT3 BUILDER</span>
+            </button>
+            <button id="replay-btn" class="btn btn-outline btn-pill btn-lg magnetic-btn">
+              <span>REPLAY CINEMATIC DRIVE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: CONFIGURATION BUILDER (INDIAN RUPEES PRICING) -->
+  <div id="config-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-container glass-panel ios-squircle">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag pill-badge glow-badge">PORSCHE INDIA GT3 ALLOCATION</span>
+        <h3 id="modal-title">CUSTOMIZE YOUR 911 GT3 (INDIA)</h3>
+      </div>
+
+      <form id="config-form" class="modal-form">
+        <div class="form-group">
+          <label for="exterior-color">SELECT EXTERIOR PAINT</label>
+          <select id="exterior-color" class="form-control ios-input-pill">
+            <option value="Guards Red">Guards Red (Standard ₹0)</option>
+            <option value="Shark Blue">Shark Blue (+₹5,20,000)</option>
+            <option value="GT Silver">GT Silver Metallic (+₹1,05,000)</option>
+            <option value="PTS Python Green">Paint to Sample PTS (+₹18,15,000)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="transmission-choice">SELECT TRANSMISSION</label>
+          <select id="transmission-choice" class="form-control ios-input-pill">
+            <option value="7-Speed PDK">7-Speed PDK Automatic Dual-Clutch</option>
+            <option value="6-Speed GT Sport Manual">6-Speed Manual Gearbox</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="package-choice">SELECT PERFORMANCE PACKAGE</label>
+          <select id="package-choice" class="form-control ios-input-pill">
+            <option value="Weissach Package">Weissach Package (+₹28,50,000 -48 lbs Weight Reduction)</option>
+            <option value="ClubSport Package">ClubSport Package (Steel Roll Cage, 6-Point Harness)</option>
+            <option value="Standard GT3 Spec">Standard Track Spec</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="user-email">YOUR EMAIL ADDRESS</label>
+          <input type="email" id="user-email" class="form-control ios-input-pill" placeholder="driver@porsche.in" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-pill btn-block">SUBMIT YOUR SPECIFICATION</button>
+      </form>
+
+      <div id="form-success" class="form-success-card" style="display:none;">
+        <div class="success-badge-wrap">
+          <div class="success-badge-halo"></div>
+          <svg class="success-check-svg" viewBox="0 0 52 52">
+            <circle class="success-circle-bg" cx="26" cy="26" r="23" fill="none"/>
+            <path class="success-check-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+
+        <h4 class="success-title">SPECIFICATION CONFIRMED</h4>
+        <p class="success-subtitle">Your custom Porsche 911 GT3 allocation dossier has been registered with Porsche India.</p>
+
+        <!-- Summary Details Card -->
+        <div class="success-spec-summary">
+          <div class="summary-row">
+            <span class="summary-label">ALLOCATION ID</span>
+            <span class="summary-val highlight-gold" id="summary-alloc-id">#GT3-IN-2026-8942</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">EXTERIOR PAINT</span>
+            <span class="summary-val" id="summary-paint-val">Guards Red</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">TRANSMISSION</span>
+            <span class="summary-val" id="summary-trans-val">7-Speed PDK</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">SPEC PACKAGE</span>
+            <span class="summary-val" id="summary-pkg-val">Weissach Package</span>
+          </div>
+        </div>
+
+        <div class="success-action-group">
+          <button id="success-done-btn" class="btn btn-primary btn-pill btn-block magnetic-btn" type="button">
+            <span>DONE & RETURN TO EXPERIENCE</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER (TRANSPARENT FULL-BLEED OVER BG VIDEO) -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">PORSCHE 911 GT3</span>
+        <p>&copy; 2026 Dr. Ing. h.c. F. Porsche AG. All rights reserved.</p>
+      </div>
+      <div class="footer-meta">
+        <span class="pill-badge glow-badge">FPS: <strong id="fps-display">60</strong></span>
+        <button id="replay-cinematic-btn" class="pill-badge glow-badge magnetic-btn" style="background: rgba(255, 30, 39, 0.15); border: 1px solid #FF1E27; color: #FF1E27; cursor: pointer; transition: all 0.3s ease;">🎬 REPLAY CINEMATIC DRIVE</button>
+        <a href="#motion" class="back-to-top pill-badge glow-badge">TOP &uarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript Engine -->
+  <script src="main.js"></script>
+</body>
+</html>
