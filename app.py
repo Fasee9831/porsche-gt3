@@ -4,7 +4,7 @@ import numpy as np
 from flask import Flask, request, jsonify, send_from_directory
 from sklearn.ensemble import RandomForestRegressor
 
-app = Flask(__name__, static_folder='.')
+app = Flask(__name__, static_folder='.', static_url_path='')
 
 # --------------------------------------------------------------------------
 # SCIKIT-LEARN MODEL TRAINING ON PORSCHE 911 GT3 TELEMETRY DATA
