@@ -1624,6 +1624,10 @@ model-viewer {
   height: 100vh;
   z-index: 999999;
   background-color: #030405 !important;
+  background-image: radial-gradient(circle at center, rgba(3, 4, 5, 0.45) 0%, rgba(3, 4, 5, 0.85) 75%, rgba(3, 4, 5, 0.98) 100%), url('frames/frame_001.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

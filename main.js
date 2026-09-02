@@ -555,6 +555,8 @@
 
     if (imgFrame && imgFrame.complete && imgFrame.naturalWidth > 0) {
       drawScaledAsset(imgFrame, imgFrame.naturalWidth, imgFrame.naturalHeight, cWidth, cHeight);
+    } else if (loadedFrames[0] && loadedFrames[0].complete && loadedFrames[0].naturalWidth > 0) {
+      drawScaledAsset(loadedFrames[0], loadedFrames[0].naturalWidth, loadedFrames[0].naturalHeight, cWidth, cHeight);
     } else if (video && video.readyState >= 2) {
       if (Math.abs(video.currentTime - targetTime) > 0.01) {
         video.currentTime = targetTime;
@@ -2001,6 +2003,19 @@
     }
 
     document.body.classList.remove('intro-done');
+
+    // Force programmatic autoplay on intro background video element
+    const introVideo = introOverlay.querySelector('.gt3-intro-bg-video');
+    if (introVideo) {
+      introVideo.muted = true;
+      introVideo.playsInline = true;
+      const playPromise = introVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay handled by CSS background-image fallback
+        });
+      }
+    }
 
     let isFinished = false;
     let animFrameId = null;
