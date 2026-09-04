@@ -56,8 +56,11 @@ ml_model = train_gt3_optimizer_model()
 def serve_index():
     return send_from_directory('.', 'index.html')
 
+@app.route('/og-image.png')
 @app.route('/og_image.png')
 def serve_og_png():
+    if os.path.exists('og-image.png'):
+        return send_from_directory('.', 'og-image.png', mimetype='image/png')
     return send_from_directory('.', 'og_image.png', mimetype='image/png')
 
 @app.route('/og-image.jpg')
